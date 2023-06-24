@@ -8,15 +8,13 @@ import com.olity.pocgdx.PocGame;
 public class DesktopLauncher {
 	// TUTORIAL // config.setWindowedMode(800, 480);
 	// ANDROID LIKE // width=2186 height=1080
-	public static int width = 1920;
-	public static int height = 1080;
 
 	public static void main (String[] arg) {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 		config.setTitle("POCGDX");
-		config.setWindowedMode(width, height);
+		config.setWindowedMode(PocGame.width, PocGame.height);
 		config.useVsync(true);
 		config.setForegroundFPS(60);
-		new Lwjgl3Application(new PocGame(), config);
+		new Lwjgl3Application(new PocGame(PocGame.LaunchMode.DESKTOP), config);
 	}
 }

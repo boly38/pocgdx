@@ -18,7 +18,7 @@ public class AndroidLauncher extends AndroidApplication {
         config.useAccelerometer = false;
         config.useCompass = false;
         showResolution();
-        initialize(new PocGame(), config);
+        initialize(new PocGame(PocGame.LaunchMode.ANDROID), config);
     }
 
     private void showResolution() {

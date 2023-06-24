@@ -10,13 +10,13 @@ public class HtmlLauncher extends GwtApplication {
         @Override
         public GwtApplicationConfiguration getConfig () {
                 // Resizable application, uses available space in browser
-                // return new GwtApplicationConfiguration(true);
+                return new GwtApplicationConfiguration(true);
                 // Fixed size application:
-                return new GwtApplicationConfiguration(800, 480);
+                // return new GwtApplicationConfiguration(PocGame.width*4/5, PocGame.height *4/5);
         }
 
         @Override
         public ApplicationListener createApplicationListener () {
-                return new PocGame();
+                return new PocGame(PocGame.LaunchMode.HTML);
         }
 }

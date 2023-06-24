@@ -32,11 +32,14 @@ public class MainMenuScreen implements Screen {
                 game.screenHeight - 300, 3,
                 this::launchGame
         ));
-        clickableFonts.add(new ClickableFont("Quitter",
-                this.menuX,
-                game.screenHeight - 400, 3,
-                this::existApp
-        ));
+        if (game.canQuitApplication()) {
+            clickableFonts.add(new ClickableFont("Quitter",
+                    this.menuX,
+                    game.screenHeight - 400, 3,
+                    this::existApp
+            ));
+        }
+        Gdx.input.setInputProcessor(null);
     }
 
     @Override
