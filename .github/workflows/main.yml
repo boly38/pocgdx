@@ -1,0 +1,59 @@
+## credit : chatGPT https://chat.openai.com/
+# continuous integration
+name: pocgdx-ci
+
+# Controls when the action will run. 
+on:
+  # Triggers the workflow on push or pull request events but only for the prod branch
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        java-version: 8
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Build and package Desktop application
+      run: ./gradlew desktop:dist
+
+    - name: Build and package Android application
+      run: ./gradlew android:assembleRelease
+
+    - name: Build and package HTML application
+      run: ./gradlew html:dist
+
+    - name: Build and package iOS application
+      run: |
+        # Install dependencies for iOS build
+        sudo gem install cocoapods
+        cd ios
+        pod install
+        cd ..
+        
+        # Build iOS application
+        ./gradlew ios:packIOSApp
+
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: Application Artifacts
+        path: |
+          desktop/build/libs/*.jar
+          android/build/outputs/apk/release/*.apk
+          html/build/dist/*
+          ios/build/robovm/*.ipa
