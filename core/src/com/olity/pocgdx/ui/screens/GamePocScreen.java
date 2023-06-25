@@ -276,6 +276,8 @@ public class GamePocScreen implements Screen {
 
     @Override
     public void dispose() {
+        Gdx.app.log("dispose", "gamePoc");
+        Gdx.input.setInputProcessor(null);
         playerTexture.dispose();
         cellTexture.dispose();
         maskTexture.dispose();
