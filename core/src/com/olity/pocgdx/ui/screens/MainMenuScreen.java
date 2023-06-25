@@ -95,6 +95,7 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void dispose() {
+        Gdx.app.log("dispose", "mainMenu");
         for (ClickableFont font : clickableFonts) {
             font.dispose();
         }
