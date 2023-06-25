@@ -26,6 +26,7 @@ public class MainMenuScreen implements Screen {
                 game.screenHeight - 150, 3,
                 null
         );
+        gameScoreLabel.setVisible(false);
         clickableFonts.add(gameScoreLabel);
         clickableFonts.add(new ClickableFont("Démarrer !",
                 this.menuX,
@@ -107,5 +108,6 @@ public class MainMenuScreen implements Screen {
 
     public void updateScore() {
         gameScoreLabel.updateText("Game score: " + game.gameScore);
+        gameScoreLabel.setVisible(true);
     }
 }
