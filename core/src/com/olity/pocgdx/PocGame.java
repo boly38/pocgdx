@@ -52,8 +52,10 @@ public class PocGame extends Game {
     }
 
     public void gotoMainMenu(int scoreIncrement) {
-        this.gameScore += scoreIncrement;
-        mainMenu.updateScore();
+        if (scoreIncrement != 0) {
+            this.gameScore += scoreIncrement;
+            mainMenu.updateScore();
+        }
         Screen oldScreen = this.getScreen();
         this.setScreen(mainMenu);
         if (oldScreen != null) {

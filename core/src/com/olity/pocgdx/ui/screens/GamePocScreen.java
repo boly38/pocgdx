@@ -181,8 +181,6 @@ public class GamePocScreen implements Screen {
         if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN))
             verticalMovement--;
 
-        boolean hasMovement = horizontalMovement != 0 || verticalMovement != 0;
-
         boolean keyJustPressedToForceLeave = (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE) || Gdx.input.isKeyJustPressed(Input.Keys.ENTER));
         if (keyJustPressedToForceLeave && gameEnded) {
             forceGoToMainMenuNow();
@@ -190,11 +188,7 @@ public class GamePocScreen implements Screen {
         } else if (gameEnded) {
             return;
         }
-        if (hasMovement) {
-            userLevelScore--;
-            endGameLabel.updateText(GOOD_GAME + " score:" + userLevelScore);
-            scoreLabel.updateText("Votre score: " + userLevelScore);
-        }
+
         movePlayerWithinBoardLimit(horizontalMovement, verticalMovement);
     }
 
@@ -205,6 +199,12 @@ public class GamePocScreen implements Screen {
             playerPosition.x += horizontalMovement;
         if (playerPosition.y + verticalMovement >= 0 && playerPosition.y + verticalMovement < BOARD_SIZE_Y)
             playerPosition.y += verticalMovement;
+        boolean hasMovement = horizontalMovement != 0 || verticalMovement != 0;
+        if (hasMovement) {
+            userLevelScore--;
+            endGameLabel.updateText(GOOD_GAME + " score:" + userLevelScore);
+            scoreLabel.updateText("Votre score: " + userLevelScore);
+        }
     }
 
     private void handleGameTurn() {

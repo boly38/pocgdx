@@ -12,11 +12,11 @@ public class SwipeGestureListener implements GestureDetector.GestureListener {
     /**
      * min velocity to consider a SWIPE action
      */
-    private static final int MIN_SWIPE_VELOCITY = 800;// those value might be customized
+    private static final int MIN_SWIPE_VELOCITY = 100;// those value might be customized
     /**
-     * max velocity accepted for an unwanted direction
+     * min velocity ratio with other axis
      */
-    private static final int MAX_NO_SWIPE_VELOCITY = 500;// those value might be customized
+    private static final int MIN_SWIPE_VELOCITY_RATIO = 5;// those value might be customized
     private final OnSwipe onSwipe;
 
     /**
@@ -48,23 +48,18 @@ public class SwipeGestureListener implements GestureDetector.GestureListener {
         if (DEBUG_ME) {
             Gdx.app.log("POC", "fling vx:" + vX + " vy:" + vY + " bt:" + button);
         }
-        if (vX > MIN_SWIPE_VELOCITY && noSwipeVelocityFor(vY)) {
+        if (vX > MIN_SWIPE_VELOCITY && vX > MIN_SWIPE_VELOCITY_RATIO * Math.abs(vY)) {
             this.onSwipe.call(OnSwipe.Direction.RIGHT);
-        } else if (vX < -MIN_SWIPE_VELOCITY && noSwipeVelocityFor(vY)) {
+        } else if (vX < -MIN_SWIPE_VELOCITY && vX < -MIN_SWIPE_VELOCITY_RATIO * Math.abs(vY)) {
             this.onSwipe.call(OnSwipe.Direction.LEFT);
-        } else if (noSwipeVelocityFor(vX) && vY > MIN_SWIPE_VELOCITY) {
+        } else if (vY > MIN_SWIPE_VELOCITY_RATIO * Math.abs(vX) && vY > MIN_SWIPE_VELOCITY) {
             this.onSwipe.call(OnSwipe.Direction.DOWN);
-        } else if (noSwipeVelocityFor(vX) && vY < -MIN_SWIPE_VELOCITY) {
+        } else if (vY < -MIN_SWIPE_VELOCITY_RATIO * Math.abs(vX) && vY < -MIN_SWIPE_VELOCITY) {
             this.onSwipe.call(OnSwipe.Direction.UP);
         } else {
             this.onSwipe.call(OnSwipe.Direction.NONE);
         }
         return false;
-    }
-
-    private boolean noSwipeVelocityFor(float velocity) {
-        return velocity < SwipeGestureListener.MAX_NO_SWIPE_VELOCITY
-                && velocity > -SwipeGestureListener.MAX_NO_SWIPE_VELOCITY;
     }
 
     @Override
