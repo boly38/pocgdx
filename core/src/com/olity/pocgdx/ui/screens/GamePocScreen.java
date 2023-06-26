@@ -35,7 +35,7 @@ public class GamePocScreen implements Screen {
     private final Vector2 gameGridScreenPosition, playerPosition, exitPosition;
 
     private final int CELL_SIZE = 80;
-    private final int BOARD_SIZE_X = 10;
+    private final int BOARD_SIZE_X = 23;
     private final int BOARD_SIZE_Y = 10;
 
     private final boolean[][] discovered = new boolean[BOARD_SIZE_X][BOARD_SIZE_Y];
@@ -75,7 +75,7 @@ public class GamePocScreen implements Screen {
 
         //~ positions
         int boardHeight = CELL_SIZE * BOARD_SIZE_Y;
-        gameGridScreenPosition = new Vector2(100, (float) (game.screenHeight - boardHeight) / 2);
+        gameGridScreenPosition = new Vector2(20, (float) (game.screenHeight - boardHeight) / 2);
         playerPosition = randomStartPlayerPosition();
         exitPosition = randomEndExistPosition();
 
@@ -181,7 +181,9 @@ public class GamePocScreen implements Screen {
         if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN))
             verticalMovement--;
 
-        boolean keyJustPressedToForceLeave = (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE) || Gdx.input.isKeyJustPressed(Input.Keys.ENTER));
+        boolean keyJustPressedToForceLeave = (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)
+                || Gdx.input.isKeyJustPressed(Input.Keys.ENTER)
+                || Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_ENTER));
         if (keyJustPressedToForceLeave && gameEnded) {
             forceGoToMainMenuNow();
             return;
@@ -227,12 +229,11 @@ public class GamePocScreen implements Screen {
 
         game.batch.begin();
         {
-            int textX = (int) gameGridScreenPosition.x + (CELL_SIZE*BOARD_SIZE_X) + 50;
             game.font.draw(game.batch, "Trouvez la sortie avec le moins de déplacements possible",
-                    textX, game.screenHeight - 300, 400, Align.left, true);
+                    10, 100, 600, Align.left, true);
 
             game.font.draw(game.batch, "Vous pouvez vous déplacer avec des swipes (dekstop: ou au clavier).",
-                    textX, game.screenHeight - 500, 400, Align.left, true);
+                    750, 100, 600, Align.left, true);
             dragGridGround();
             drawPlayerOnGrid();
             drawExitOnGrid();

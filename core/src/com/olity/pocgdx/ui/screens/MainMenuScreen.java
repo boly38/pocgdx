@@ -2,6 +2,7 @@ package com.olity.pocgdx.ui.screens;
 
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -20,7 +21,7 @@ public class MainMenuScreen implements Screen {
 
     public MainMenuScreen(final PocGame game) {
         this.game = game;
-        this.menuX = game.screenWidth /4;
+        this.menuX = game.screenWidth / 4;
         gameScoreLabel = new ClickableFont("Game score: " + game.gameScore,
                 this.menuX,
                 game.screenHeight - 150, 3,
@@ -50,6 +51,20 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void render(float delta) {
+        handleKeyboardInput();
+        handleBatchDraw();
+    }
+
+    private void handleKeyboardInput() {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)
+                || Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_ENTER)) {
+            this.launchGame();
+        } else if (game.canQuitApplication() && Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+            this.existApp();
+        }
+    }
+
+    private void handleBatchDraw() {
         ScreenUtils.clear(0, 0, 0.2f, 1);
 
         game.camera.update();

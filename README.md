@@ -10,7 +10,7 @@ Projet LibGDX (mini jeu type PoC) capable de générer une application pour :
 
 - Un menu très simple accueille le joueur pour démarrer une partie ou quitter (quitter absent en mode html).
 - 
-- un tableau de 10 x 10 cases est présenté. Le joueur débute avec un score de tableau de `200`.
+- un tableau de x x y cases est présenté. Le joueur débute avec un score de tableau de `200`.
 
 - un joueur est présent sur un bord d’un case du 1/4 haut-gauche du tableau
 
