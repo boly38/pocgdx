@@ -44,7 +44,9 @@ jobs:
       run: ${gradlew_bin} android:assembleRelease
 
     - name: Build and package HTML application
-      run: ${gradlew_bin} html:dist
+      run: |
+        ${gradlew_bin} html:dist
+        tar -czvf html/build/html.tgz -C html/build/dist/ .
 
 #    - name: Build and package iOS application - DISABLED seems to need  MobiVM &nd xcode project (.xcodeproj file)
 #      run: |
@@ -56,12 +58,33 @@ jobs:
 #        # Build iOS application
 #        ${gradlew_bin} ios:packIOSApp
 
-    - name: Upload artifacts
-      uses: actions/upload-artifact@v2
+# without release to generate artifacts
+#
+#    - name: Upload artifacts
+#      uses: actions/upload-artifact@v2
+#      with:
+#        name: Application Artifacts
+#        path: |
+#          desktop/build/libs/*.jar
+#          android/build/outputs/apk/release/*.apk
+#          html/build/dist/*
+#          ios/build/robovm/*.ipa
+#
+  publish-release:
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/v')
+    permissions: write-all
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    steps:
+    - uses: "marvinpinto/action-automatic-releases@latest"
       with:
-        name: Application Artifacts
-        path: |
+        repo_token: "${{ secrets.GITHUB_TOKEN }}"
+        automatic_release_tag: "latest"
+        prerelease: true
+        title: "Build packages"
+        files: |
+          LICENSE
           desktop/build/libs/*.jar
+          html/build/html.tgz
           android/build/outputs/apk/release/*.apk
-          html/build/dist/*
-          ios/build/robovm/*.ipa
